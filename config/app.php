@@ -175,6 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //laravel dataTable Package
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        \Conner\Tagging\Providers\TaggingServiceProvider::class,
     ],
 
     /*

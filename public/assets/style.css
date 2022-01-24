@@ -1,0 +1,15 @@
+.#{
+}
+
+.bootstrap-tagsinput .tag {
+    margin-right: 2px;
+    color: #ffffff;
+    background: #2196f3;
+    padding: 3px 7px;
+    border-radius: 3px;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+

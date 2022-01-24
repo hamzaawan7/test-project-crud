@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('users-list');
 
-Route::redirect('/','/userCrud');
-Route::get('/userCrud',[App\Http\Controllers\BaseController::class,'index'])->name('userCrud');
-Route::get('user/list',[App\Http\Controllers\UserController::class,'index'])->name('userList');
-Route::get('/user/create',[App\Http\Controllers\UserController::class,'createUser'])->name('createUser');
+Route::prefix('user')->group(function () {
+    Route::post('/save', [App\Http\Controllers\UserController::class, 'store']);
+    Route::get('/get', [App\Http\Controllers\UserController::class, 'get'])->name('get-user');
+    Route::get('/detail', [App\Http\Controllers\UserController::class, 'detail'])->name('user-detail');
+    Route::get('/delete', [App\Http\Controllers\UserController::class, 'destroy']);
+});
