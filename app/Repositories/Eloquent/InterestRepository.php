@@ -19,16 +19,10 @@ class InterestRepository implements InterestRepositoryInterface
     public function save(array $data, int $userId): void
     {
         foreach ($data as $interestName) {
-            $interest = Interest::where('user_id', $userId)->where('name', $interestName)->first();
-
-            if (!$interest) {
-                $interest = new Interest();
-            }
-
-            $interest->user_id = $userId;
-            $interest->name = $interestName;
-
-            $interest->save();
+            Interest::updateOrCreate(
+                ['user_id' => $userId, 'name' => $interestName],
+                ['user_id' => $userId, 'name' => $interestName],
+            );
         }
 
         Interest::where('user_id', $userId)->whereNotIn('name', $data)->delete();

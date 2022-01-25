@@ -18,7 +18,7 @@ class UserSaveRequest extends FormRequest
             'surname'          => 'required',
             'south_african_id' => 'required',
             'mobile_number'    => 'required',
-            'email'            => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            'email'            => 'required|email|unique:users,email,' . $this->input('user_id'),
             'dob'              => 'required',
             'language'         => 'required',
             'interests'        => 'required',

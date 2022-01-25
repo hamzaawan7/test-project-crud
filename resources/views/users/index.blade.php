@@ -41,8 +41,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="button_div text-center">
-                            <button type="button" class="btn btn-info btn-center" data-toggle="modal"
-                                    data-target="#formModal" id="form_model">+ Add New User
+                            <button type="button" class="btn btn-info btn-center" id="form_model">
+                                + Add New User
                             </button>
                         </div>
 
@@ -107,7 +107,6 @@
                 method: 'post',
                 data: data,
                 success: function (response) {
-                    console.log(response);
                     $('#user_form')[0].reset();
                     toastr.success(response.message);
 
@@ -125,8 +124,21 @@
         }
 
         //Get Data for Update
+        $(document).on('click', '#form_model', function (e) {
+            e.preventDefault(e);
+
+            const formModal = $('#formModal');
+            formModal.find("input, select").not('input[name="_token"]').val("");
+            $(".error-message").html('');
+            $("#interests").tagsinput('removeAll');
+            formModal.modal('show');
+        });
+        //End Update
+
+        //Get Data for Update
         $(document).on('click', '.user_edit_cl', function (e) {
             e.preventDefault(e);
+            $(".error-message").html('');
             const user_id = $(this).attr("user-id");
 
             $.ajax({
@@ -143,8 +155,11 @@
                     $('#lang').val(response.user.language);
                     $('#dob').val(response.user.dob);
                     $('#mobile_number').val(response.user.mobile_number);
-                    $("input[data-role=tagsinput]").tagsinput('add', response.interests);
-                    $('#formModal').modal('show');
+
+                    const interestsId = $("#interests");
+                    interestsId.tagsinput('removeAll');
+                    interestsId.tagsinput('add', response.interests);
+
                     $('#formModal').modal('show');
 
                 }
@@ -162,8 +177,7 @@
                 method: 'get',
                 data: {user_id: user_id},
                 success: function (response) {
-                    $('#view_table').removeAttr(html);
-                    var html='<tr><th>Name:</th><td>'+response.user.name+'</td></tr>' +
+                    const html='<tr><th>Name:</th><td>'+response.user.name+'</td></tr>' +
                         '<tr><th>Surname:</th><td>'+response.user.surname+'</td></tr>' +
                         '<tr><th>South African Id:</th><td>'+response.user.south_african_id+'</td></tr>'+
                         '<tr><th>Mobile Number:</th><td>'+response.user.mobile_number+'</td></tr>'+
@@ -171,6 +185,7 @@
                         '<tr><th>Date Of Birth:</th><td>'+response.user.dob +'</td></tr>'+
                         '<tr><th>Language:</th><td>'+response.user.language +'</td></tr>'+
                         '<tr><th>Interest:</th><td>'+response.interests +'</td></tr>';
+                    $('#view_table').removeAttr(html);
                     $('#view_table').html(html);
                     $('#myViewModal').modal('show');
                 }
@@ -197,9 +212,10 @@
                 data: {user_id: delete_user_id},
                 success: function (response) {
                     console.log(response);
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         toastr.success(response.message);
                         $('#delete-modal').modal('hide');
+
                         myInterval = setInterval(function () {
                             location.reload();
                             clearInterval(myInterval);

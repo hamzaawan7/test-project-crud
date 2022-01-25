@@ -20,15 +20,15 @@
                         <div class="form-group col-md-6">
                             <label for="username">Name</label>
                             <input class="form-control" type="text" id="name"
-                                   required="" name="name" placeholder="Michael Zenaty">
-                            <span class="text-danger" id="name_error"></span>
+                                   required="" name="name" placeholder="Enter Firstname">
+                            <span class="text-danger error-message" id="name_error"></span>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="surname">Surname</label>
                             <input class="form-control" type="text" id="surname"
                                    required="" name="surname" placeholder="Enter Surname">
-                            <span class="text-danger" id="surname_error"></span>
+                            <span class="text-danger error-message" id="surname_error"></span>
                         </div>
 
                         <div class="form-group col-md-6">
@@ -36,25 +36,25 @@
                             <input class="form-control" type="number" required=""
                                    id="south_african_id" name="south_african_id"
                                    placeholder="Enter South African Id Number">
-                            <span class="text-danger" id="south_african_id_error"></span>
+                            <span class="text-danger error-message" id="south_african_id_error"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="password">Mobile Number</label>
                             <input class="form-control" type="text" required=""
                                    id="mobile_number" name="mobile_number" placeholder="Enter your mobile no">
-                            <span class="text-danger" id="mobile_number_error"></span>
+                            <span class="text-danger error-message" id="mobile_number_error"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="email">Email Address</label>
                             <input class="form-control" type="email" required=""
                                    id="email" name="email" placeholder="Enter your email">
-                            <span class="text-danger" id="email_error"></span>
+                            <span class="text-danger error-message" id="email_error"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="dob">Birth Date</label>
                             <input class="form-control" type="date" required=""
                                    id="dob" name="dob">
-                            <span class="text-danger" id="dob_error"></span>
+                            <span class="text-danger error-message" id="dob_error"></span>
                         </div>
 
                         <div class="form-group col-md-6">
@@ -67,13 +67,13 @@
                                 <option value="Arabic">Arabic</option>
                                 <option value="Mandarin">Mandarin</option>
                             </select>
-                            <span class="text-danger" id="language_error"></span>
+                            <span class="text-danger error-message" id="language_error"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="interest">Interests </label>
                             <input class="form-control" type="text" data-role="tagsinput" name="interests"
                                    id="interests" placeholder="Enter your interest" required>
-                            <span class="text-danger" id="interests_error"></span>
+                            <span class="text-danger error-message" id="interests_error"></span>
                         </div>
                     </div>
                 </form>
