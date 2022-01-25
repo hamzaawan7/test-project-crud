@@ -1,169 +1,39 @@
-@extends('layouts.layout')
-@section('content')
-<head>
+@extends('layouts.app')
+
+@section('styling')
     <style>
+        #form_model {
+            margin-bottom: 20px;
+        }
+
         table#view_table td {
             border: none !important;
         }
+
         table#view_table th {
             border: none !important;
         }
+
         .user_view_cl {
             padding: 8px 10px;
             border-radius: 3px;
         }
+
         td#button_id {
             display: flex;
             justify-content: center;
         }
+
         .same_style {
             margin-left: 5px;
         }
     </style>
-</head>
+@endsection
 
-    <!-- sample modal content -->
-    <div id="myViewModal" class="modal fade" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">User Detail</h4>
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                   <table class="table" id="view_table">
-
-                   </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light"
-                            data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
-
-
-    <!-- Add User Modal -->
-    <div id="addModal" class="modal fade" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">User Modal</h4>
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">×
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
-                        <a href="index.html" class="text-success">
-                            <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
-                                    src="../assets/images/logo-text.png" alt="" height="18"></span>
-                        </a>
-                    </div>
-
-                    <form class="pl-3 pr-3" action="#" id="user_form">
-                        <input type="hidden" id="user_id" name="user_id">
-                        @csrf
-                        <div class="row">
-                            <input type="hidden" name="user_id" id="user_id_ed">
-                            <div class="form-group col-md-6">
-                                <label for="username">Name</label>
-                                <input class="form-control" type="text" id="name"
-                                       required="" name="name" placeholder="Michael Zenaty">
-                                <span class="text-danger" id="name_error"></span>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="surname">Surname</label>
-                                <input class="form-control" type="text" id="surname"
-                                       required="" name="surname" placeholder="Enter Surname">
-                                <span class="text-danger" id="surname_error"></span>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="id">South African Id Number</label>
-                                <input class="form-control" type="number" required=""
-                                       id="south_african_id" name="south_african_id"
-                                       placeholder="Enter South African Id Number">
-                                <span class="text-danger" id="sid_error"></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="password">Mobile Number</label>
-                                <input class="form-control" type="text" required=""
-                                       id="mobile_number" name="mobile_number" placeholder="Enter your mobile no">
-                                <span class="text-danger" id="cnumber_error"></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="email">Email Address</label>
-                                <input class="form-control" type="email" required=""
-                                       id="email" name="email" placeholder="Enter your email">
-                                <span class="text-danger" id="email_error"></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="dob">Birth Date</label>
-                                <input class="form-control" type="date" required=""
-                                       id="dob" name="dob">
-                                <span class="text-danger" id="dob_error"></span>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="language">Select Language</label>
-                                <select class="form-control" aria-label="Default select example" name="language"
-                                        id="lang">
-                                    <option selected>Select Language</option>
-                                    <option value="English">English</option>
-                                    <option value="Spanish">Spanish</option>
-                                    <option value="Arabic">Arabic</option>
-                                    <option value="Mandarin">Mandarin</option>
-                                </select>
-                                <span class="text-danger" id="language_error"></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="interest">Interests </label>
-                                <input class="form-control" type="text" data-role="tagsinput" name="interests"
-                                       id="interests" placeholder="Enter your interest" required>
-                                <span class="text-danger" id="interest_error"></span>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light"
-                            data-dismiss="modal">Close
-                    </button>
-                    <button type="button" class="btn btn-primary" onclick="addUser()">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete User Modal -->
-    <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-top">
-            <div class="modal-content">
-                <input type="hidden" id="delete_user_id">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="topModalLabel">Do You Want To Delete?</h4>
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">×
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light"
-                            data-dismiss="modal">Cancle
-                    </button>
-                    <button type="button" class="btn btn-primary" id="delete_user_rec">yes Delete</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.End Delete user modal -->
+@section('content')
+    @include('users.form')
+    @include('users.detail')
+    @include('users.delete')
 
     <div class="container-fluid">
         <div class="row">
@@ -172,7 +42,7 @@
                     <div class="card-body">
                         <div class="button_div text-center">
                             <button type="button" class="btn btn-info btn-center" data-toggle="modal"
-                                    data-target="#addModal" id="add_user_model">+ Add New User
+                                    data-target="#formModal" id="form_model">+ Add New User
                             </button>
                         </div>
 
@@ -182,8 +52,8 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>SurName</th>
-                                    <th>Id Number</th>
+                                    <th>Surname</th>
+                                    <th>SID Number</th>
                                     <th>Mobile Number</th>
                                     <th>Email Address</th>
                                     <th>Action</th>
@@ -198,14 +68,16 @@
                                         <td>{{$user->mobile_number}}</td>
                                         <td>{{$user->email}}</td>
                                         <td id="button_id">
-                                            <button type="button" class="btn-primary  fas fa-eye user_view_cl"
-                                                    user-id="{{$user->id}}"></button>
-                                            <button type="button" class="btn btn-info same_style fas fa-edit user_edit_cl"
-                                                    user-id="{{$user->id}}" ></button>
                                             <button type="button"
-                                                    class="btn btn-danger same_style delete_user_cl  fas fa-trash-alt"
+                                                    class="btn-primary same_style fas fa-eye user_view_cl"
+                                                    user-id="{{$user->id}}"></button>
+                                            <button type="button"
+                                                    class="btn btn-info same_style fas fa-edit user_edit_cl"
+                                                    user-id="{{$user->id}}"></button>
+                                            <button type="button"
+                                                    class="btn btn-danger same_style delete_user_cl fas fa-trash-alt"
                                                     data-toggle="modal" data-target="#delete-modal"
-                                                    user-id="{{$user->id}}" ></button>
+                                                    user-id="{{$user->id}}"></button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -217,5 +89,122 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('scripts')
+    <script>
+        function saveUser() {
+            const data = $("#user_form").serialize();
+            const url = '{{url('/user/save')}}';
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: url,
+                method: 'post',
+                data: data,
+                success: function (response) {
+                    $('#user_form')[0].reset();
+                    toastr.success(response.message);
+
+                    myInterval = setInterval(function () {
+                        location.reload();
+                        clearInterval(myInterval);
+                    }, 2000);
+                },
+                error :function( data ) {
+                    $.each(data.responseJSON.errors, function (key, message) {
+                        $("#"+ key +"_error").html(message);
+                    });
+                }
+            });
+        }
+
+        //Get Data for Update
+        $(document).on('click', '.user_edit_cl', function (e) {
+            e.preventDefault(e);
+            const user_id = $(this).attr("user-id");
+
+            $.ajax({
+                url: '/user/get',
+                method: 'get',
+                data: {user_id: user_id},
+                success: function (response) {
+                    $('#user_id_ed').val(response.user.id);
+                    $('#user_id').val(response.user.id);
+                    $('#name').val(response.user.name);
+                    $('#email').val(response.user.email);
+                    $('#surname').val(response.user.surname);
+                    $('#south_african_id').val(response.user.south_african_id);
+                    $('#lang').val(response.user.language);
+                    $('#dob').val(response.user.dob);
+                    $('#mobile_number').val(response.user.mobile_number);
+                    $("input[data-role=tagsinput]").tagsinput('add', response.interests);
+
+                    $('#formModal').modal('show');
+                }
+            });
+        });
+        //End Update
+
+        //Get Data for Detail View
+        $(document).on('click', '.user_view_cl', function (e) {
+            e.preventDefault(e);
+            const user_id = $(this).attr("user-id");
+
+            $.ajax({
+                url: '/user/get',
+                method: 'get',
+                data: {user_id: user_id},
+                success: function (response) {
+                    var html='<tr><th>Name:</th><td>'+response.user.name+'</td></tr>' +
+                        '<tr><th>Surname:</th><td>'+response.user.surname+'</td></tr>' +
+                        '<tr><th>South African Id:</th><td>'+response.user.south_african_id+'</td></tr>'+
+                        '<tr><th>Mobile Number:</th><td>'+response.user.mobile_number+'</td></tr>'+
+                        '<tr><th>Email:</th><td>'+response.user.email +'</td></tr>'+
+                        '<tr><th>Date Of Birth:</th><td>'+response.user.dob +'</td></tr>'+
+                        '<tr><th>Language:</th><td>'+response.user.language +'</td></tr>'+
+                        '<tr><th>Interest:</th><td>'+response.interests +'</td></tr>';
+                    $('#view_table').html(html);
+                    $('#myViewModal').modal('show');
+                }
+            });
+        });
+        //End detail function
+
+        //Delete function
+        $(document).on('click', '.delete_user_cl', function (e) {
+            e.preventDefault(e);
+            const user_id = $(this).attr("user-id");
+
+            $('#delete_user_id').val(user_id);
+            $('#delete-modal').modal('show');
+        });
+
+        $(document).on('click', '#delete_user_rec', function (e) {
+            e.preventDefault(e);
+            const delete_user_id = $('#delete_user_id').val();
+
+            $.ajax({
+                url: "/user/delete",
+                type: "get",
+                data: {user_id: delete_user_id},
+                success: function (response) {
+                    console.log(response);
+                    if (response.status == 200) {
+                        toastr.success(response.message);
+                        $('#delete-modal').modal('hide');
+                        myInterval = setInterval(function () {
+                            location.reload();
+                            clearInterval(myInterval);
+                        }, 2000);
+                    }
+                }
+            });
+        });
+        //end delete process
+    </script>
 @endsection

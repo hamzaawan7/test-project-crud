@@ -1,105 +1,68 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\UserSaveRequest;
+use App\Repositories\InterestRepositoryInterface;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
-use App\Models\User;
-use App\Models\Interest;
 use Illuminate\Http\Request;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
+    private $userRepository;
+    private $interestRepository;
+
+    /**
+     * UserController constructor.
+     * @param UserRepositoryInterface $userRepository
+     * @param InterestRepositoryInterface $interestRepository
+     */
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        InterestRepositoryInterface $interestRepository
+    ) {
+        $this->userRepository = $userRepository;
+        $this->interestRepository = $interestRepository;
+    }
+
     public function index()
     {
-        $users = User::all();
-
-        return view('users.index', ['users' => $users]);
+        return view('users.index', ['users' => $this->userRepository->all()]);
     }
 
     /**
-     * @param Request $request
+     * @param UserSaveRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(UserSaveRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'surname' => 'required',
-            'south_african_id' => 'required',
-            'mobile_number' => 'required',
-            'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
-            'dob' => 'required',
-            'language' => 'required',
-            'interests' => 'required',
-        ]);
-    //dd($request->interests);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => '400',
-                'error' => $validator->messages(),
-            ]);
-        }
+        $user = $this->userRepository->save($request->all());
+        $this->interestRepository->save(explode(',', $request->interests), $user->id);
 
-       $user = User::updateOrCreate(
-            ['email' => $request->email],
+        return response()->json(
             [
-                'name' => $request->name,
-                'surname' => $request->surname,
-                'south_african_id' => $request->south_african_id,
-                'dob' => $request->dob,
-                'language' => $request->language,
-                'mobile_number' => $request->mobile_number,
+                'status'  => 200,
+                'message' => 'Data Inserted Successfully',
             ]
         );
-
-        Interest::where('user_id',$request->user_id)->delete();
-        if ($request->interests) {
-            foreach (explode(',', $request->interests) as $interest) {
-                Interest::updateOrCreate(['name' => $interest, 'user_id'=> $user->id]);
-            }
-        }
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'Data Inserted Successfully',
-        ]);
     }
 
     /**
      * @param Request $request
      * @return mixed
      */
-    public function get(Request $request)
+    public function get(Request $request): array
     {
-        $interests = [];
-        $user = User::find($request->user_id);
-
-        foreach ($user->interests as $interest) {
-            $interests[] = $interest->name;
-        }
+        $user = $this->userRepository->get($request->user_id);
 
         return [
-            'user' => $user->toArray(),
-            'interests' => implode(', ', $interests),
-        ];
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function detail(Request $request)
-    {
-        $interests = [];
-        $user = User::find($request->user_id);
-
-        foreach ($user->interests as $interest) {
-            $interests[] = $interest->name;
-        }
-
-        return [
-            'user' => $user->toArray(),
-            'interests' => implode(', ', $interests),
+            'user'      => $user->toArray(),
+            'interests' => $this->stringifyInterests($user->interests),
         ];
     }
 
@@ -109,11 +72,20 @@ class UserController extends Controller
      */
     public function destroy(Request $request): array
     {
-        User::find($request->user_id)->delete();
+        $this->userRepository->delete($request->id);
 
         return array(
-            'status' => 200,
+            'status'  => 200,
             'message' => 'Data Deleted Successfully',
         );
+    }
+
+    /**
+     * @param $interests
+     * @return string
+     */
+    private function stringifyInterests($interests): string
+    {
+        return implode(',', collect($interests)->pluck('name')->toArray());
     }
 }
