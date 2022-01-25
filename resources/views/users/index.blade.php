@@ -107,6 +107,7 @@
                 method: 'post',
                 data: data,
                 success: function (response) {
+                    console.log(response);
                     $('#user_form')[0].reset();
                     toastr.success(response.message);
 
@@ -143,8 +144,9 @@
                     $('#dob').val(response.user.dob);
                     $('#mobile_number').val(response.user.mobile_number);
                     $("input[data-role=tagsinput]").tagsinput('add', response.interests);
-
                     $('#formModal').modal('show');
+                    $('#formModal').modal('show');
+
                 }
             });
         });
@@ -160,6 +162,7 @@
                 method: 'get',
                 data: {user_id: user_id},
                 success: function (response) {
+                    $('#view_table').removeAttr(html);
                     var html='<tr><th>Name:</th><td>'+response.user.name+'</td></tr>' +
                         '<tr><th>Surname:</th><td>'+response.user.surname+'</td></tr>' +
                         '<tr><th>South African Id:</th><td>'+response.user.south_african_id+'</td></tr>'+

@@ -72,7 +72,7 @@ class UserController extends Controller
      */
     public function destroy(Request $request): array
     {
-        $this->userRepository->delete($request->id);
+        $this->userRepository->delete($request->user_id);
 
         return array(
             'status'  => 200,

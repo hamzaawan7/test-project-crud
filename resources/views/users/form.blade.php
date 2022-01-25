@@ -81,7 +81,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light"
-                        data-dismiss="modal">Close
+                        data-dismiss="modal" id="close">Close
                 </button>
                 <button type="button" class="btn btn-primary" onclick="saveUser()">Save</button>
             </div>
