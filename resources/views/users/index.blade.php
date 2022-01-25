@@ -28,7 +28,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Modal Heading</h4>
+                    <h4 class="modal-title" id="myModalLabel">User Detail</h4>
                     <button type="button" class="close" data-dismiss="modal"
                             aria-hidden="true">×</button>
                 </div>
@@ -68,7 +68,7 @@
                     </div>
 
                     <form class="pl-3 pr-3" action="#" id="user_form">
-                        <input type="text" id="user_id" name="user_id">
+                        <input type="hidden" id="user_id" name="user_id">
                         @csrf
                         <div class="row">
                             <input type="hidden" name="user_id" id="user_id_ed">

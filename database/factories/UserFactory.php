@@ -18,9 +18,10 @@ class UserFactory extends Factory
             'name' => $this->faker->firstName(),
             'surname' => $this->faker->lastName(),
             'south_african_id' => $this->faker->randomNumber(),
-            'mobile_number' => $this->faker->unique()->safeEmail(),
-            'dob' => $this->faker->unique()->safeEmail(),
-            'language' => $this->faker->unique()->safeEmail(),
+            'mobile_number' => $this->faker->unique()->randomNumber(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'dob' => $this->faker->date(),
+            'language' => $this->faker->languageCode(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
